@@ -1,0 +1,15 @@
+{
+  "name": "seo-scraper-node",
+  "version": "1.0.0",
+  "description": "Scrape SEO elements or whatever you need with this scraper built in Node.js",
+  "main": "index.js",
+  "author": "Nacho Mascort <nacho.mascort@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "jsdom": "^16.4.0"
+  },
+  "devDependencies": {
+    "debug": "^4.1.1"
+  }
+}
