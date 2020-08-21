@@ -5,6 +5,9 @@
   "main": "index.js",
   "author": "Nacho Mascort <nacho.mascort@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "test": "echo \"No test specified\""
+  },
   "dependencies": {
     "axios": "^0.19.2",
     "jsdom": "^16.4.0",
