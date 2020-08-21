@@ -1,6 +1,6 @@
 {
   "name": "seo-scraper",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Scrape SEO elements or whatever you need with this scraper built in Node.js",
   "main": "index.js",
   "author": "Nacho Mascort <nacho.mascort@gmail.com>",
@@ -11,6 +11,9 @@
   "repository": {
     "type" : "git",
     "url" : "https://github.com/NachoSEO/seo-scraper.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "dependencies": {
     "axios": "^0.19.2",
