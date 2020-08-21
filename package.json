@@ -10,8 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "jsdom": "^16.4.0",
-    "np": "^6.4.0"
+    "jsdom": "^16.4.0"
   },
   "devDependencies": {
     "debug": "^4.1.1"
