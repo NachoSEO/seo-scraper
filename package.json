@@ -8,6 +8,10 @@
   "scripts": {
     "test": "echo \"No test specified\""
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/NachoSEO/seo-scraper.git"
+  },
   "dependencies": {
     "axios": "^0.19.2",
     "jsdom": "^16.4.0"
