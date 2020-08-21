@@ -3,7 +3,7 @@ module.exports = {
     robots: "meta[name='robots']",
     description: "meta[name='description']",
   },
-  innerText: {
+  textContent: {
     title: "title",
     h1: "h1",
     h2: "h2",
