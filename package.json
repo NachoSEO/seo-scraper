@@ -1,5 +1,5 @@
 {
-  "name": "node-seo-scraper",
+  "name": "seo-scraper",
   "version": "1.0.0",
   "description": "Scrape SEO elements or whatever you need with this scraper built in Node.js",
   "main": "index.js",

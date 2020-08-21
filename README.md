@@ -1,8 +1,17 @@
-# NODEJS SEO SCRAPER
+# NodeJS SEO Scraper
 Scrape SEO elements by default or whatever you need with easy customizations with this Web Scraper built in Node.js
 
 ## Installing
-TBD...
+npm
+```
+npm install seo-scraper
+```
+
+yarn
+```
+yarn add seo-scraper
+```
+
 
 
 ## Get started with default config
@@ -19,17 +28,17 @@ The default config extract the usual SEO elements without proxies:
 * links
 
 
-### How to start scraping
+### Usage
 The process is as easy as use the `scrape` function with an object with a url property as argument/input:
 ```js
 const scrape = require('seo-scraper');
 
-const elements = scrape({ url: 'https://guides.github.com/' })
+scrape({ url: 'https://guides.github.com/' })
+  .then(elements => console.log(elements))
 ```
 
 The output of that execution will be:
 ```js
-console.log(elements);
 `
 {
   robots: [],
@@ -170,7 +179,7 @@ You can check the default config of selectors as an example:
 ```
 
 
-### How to use Proxies - Optional
+### Proxies - Optional
 In order to use proxies it's required to pass an Object as argument to the main function `scrape()` with the same format as the example below:
 ```js
 const proxies = {
@@ -179,7 +188,7 @@ const proxies = {
     "password": "examplePass"
   },
   "whitelist": [
-    // ip:port
+    // host:port
     "11.11.11.11:21232",
     "3.2.1.114:21290"
   ]
@@ -193,8 +202,53 @@ Example:
 scrape({ url: 'https://example.com/', proxies })
 ```
 
-## Custom scraping example
-This an example of a custom scraping:
-```js
 
+## Custom scraping example
+This is an example of a custom scraping.
+
+We can use several variables and pass it to the functions as arguments or just one object with all the custom properties we need.
+
+```js
+const scrape = require('seo-scraper');
+
+const options = {
+  url: 'https://github.com/NachoSEO',
+  selectors: {
+    textContent: {
+      title:'title',
+    },
+      content: {
+        description: "meta[name='description']",
+      }
+  },
+  config: {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+    }
+  },
+  proxies: {
+    "credentials": {
+      "username": "exampleUser",
+      "password": "examplePass"
+    },
+    "whitelist": [
+      "11.11.11.11:21232",
+      "3.2.1.114:21290"
+    ]
+  }
+}
+
+scrape(options)
+  .then(elements => console.log(elements))
+  .catch(err => console.error(err));
+
+// Output
+`
+{
+  title: [ 'NachoSEO (Nacho Mascort) · GitHub' ],
+  description: [
+    'SEO Product Owner @ Softonic. NachoSEO has 13 repositories available. Follow their code on GitHub.'
+  ]
+}
+`
 ```
