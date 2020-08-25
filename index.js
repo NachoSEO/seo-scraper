@@ -11,9 +11,11 @@ const debugIndexError = require('debug')('indexError');
  * @param {Object} selectors CSS selectors to scrape
  * @param {Object} config Request's configuration
  * @param {Object} proxies Proxies to do the requests
+ * @param {Function} transformer Transformer Function to change the parse function
+ * @param {Array} args The rest of arguments that you need for the transformer function
  * @return {Object}
  */
-module.exports =  async function scrape({ url, selectors = defaultSelectors, config = defaultConfig, proxies = null} ) {
+module.exports =  async function scrape({ url, selectors = defaultSelectors, config = defaultConfig, proxies = null, transformer = null}, ...args ) {
   
   if(proxies) {
     const [host, port, username, password] = getRandomProxy(proxies);
@@ -30,7 +32,7 @@ module.exports =  async function scrape({ url, selectors = defaultSelectors, con
   try {
     const dom = await fetch(url, config);
     const { document } = dom.window;
-    return parse(document, selectors);
+    return parse(document, selectors, transformer, ...args);
   } catch(err) {
     debugIndexError(err);
   }

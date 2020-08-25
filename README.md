@@ -124,6 +124,7 @@ In order to extract the elements that you need instead of the default config you
   }
 }
 ```
+If you need to use a custom parsing function please refer to [Transformers section](#Transformers).
 
 IMPORTANT: You need to know the web standard API in order to use the custom selectors as the structure of it depend of the methods to extract each tag. If you, for example, want to extract the Meta Robots value and the Canonical value you will need to use this config in selectors:
 ```js
@@ -250,5 +251,109 @@ scrape(options)
     'SEO Product Owner @ Softonic. NachoSEO has 13 repositories available. Follow their code on GitHub.'
   ]
 }
+`
+```
+
+## Transformers
+Maybe the `parse` function doesn't solve all your needs regarding Scraping and that's why exist the Transformer. The Transformer is a function that you could pass as a parameter in order to substitute the logic of the `parse` function.
+
+By default, the Transformer function uses: `document`, `selectors` & `...args` parameters in order to add any logic that you could need.
+
+In order to use the `...args` you will need to pass any extra argument in the `scrape`function (the main one from the examples).
+
+Like this:
+```js
+scrape(options, arg1, arg2, arg3);
+```
+
+### Example using a Transformer function
+Imagine an scenario where you can to extract some SERP data from Google and you need another logic with the `selectors` file and the `parse` function.
+
+DISCLAIMER: You should not scrape companies that don't allow that practice (as Google), this is just an example to ilustrate how works this kind of functionality (I'm using Google because the vast audience of this repo will be SEO and it's a familiar place to all of us ^^).
+
+First, let's define a `selectors.js` file:
+
+```js
+module.exports = {
+  parent: '#ires .g, #res .g:not(.kno-kp)',
+  elements: {
+    textContent: {
+      title: '.r a h3',
+      description: '.s'
+    },
+    href: {
+      url: '.r a',
+      sitelinks: 'table a'
+    }
+  }
+}
+```
+As you see, I'm using a parent selector and the current `parse`function doesn't allow that so we'll need a Transformer in order to use that file.
+
+Let's define the Transformer function in a file called: `parseSERP.js` (you could find the same function in the transformers folders):
+```js
+module.exports = function parseSERP(document, selectors, ...args) {
+  const scrapedArr = []
+  const { parent, elements } = selectors;
+  
+  document
+  .querySelectorAll(parent)
+  .forEach(node => {
+    const scrapedElement = {}
+      for (const [method, value] of Object.entries(elements)) {
+        for (const [selectorName, selector] of Object.entries(value)) {
+          try {
+            scrapedElement[selectorName] = node.querySelector(selector)[method];
+          } catch (err) {
+            console.error(err);
+            scrapedElement[selectorName] = '';
+          }
+        }
+      }
+      scrapedArr.push(scrapedElement);
+    })
+
+  return scrapedArr;
+}
+```
+Finally we need to add those files into our entrypoint and pass them as arguments:
+
+```js
+const selectors = require('path/to/selectors');
+const parseSERP = require('transformers/parseSERP')
+
+const options = {
+  url: 'https://www.google.com/search?q=hello+google',
+  selectors,
+  transformer: parseSERP
+}
+  
+scrape(options)
+  .then(elements => console.log(elements))
+  .catch(err => console.error(err));
+
+//Output
+`
+[
+  {
+    title: 'Google Assistant - Get things done, hands-free - Apps on ...',
+    description: 'Get the Google Assistant for hands-free help. Your Google Assistant is ready to help when and where you need it. Manage your schedule , get help with ... Rating: 4.1 - ‎257,718 votes - ‎Free - ‎Android - ‎Business/Productivity',
+    url: 'https://play.google.com/store/apps/details?id=com.google.android.apps.googleassistant&hl=en_US',
+    sitelinks: ''
+  },
+  {
+    title: 'Google – Apps on Google Play',
+    description: 'The Google app keeps you in the know about the things that you care about. Find quick answers, explore your interests and get a feed of updates on what ... Rating: 4.2 - ‎16,073,194 votes - ‎Free - ‎Android - ‎Utilities/Tools',
+    url: 'https://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox&hl=en_GB',
+    sitelinks: ''
+  },
+  {
+    title: 'Google Assistant, your own personal Google',
+    description: "Meet your Google Assistant. Ask it questions. Tell it to do things. It's your own personal Google, always ready to help whenever you need it.‎Get Google Assistant · ‎What it can do · ‎News and resources",
+    url: 'https://assistant.google.com/',
+    sitelinks: ''
+  },
+  ...
+  ]
 `
 ```
