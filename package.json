@@ -5,6 +5,14 @@
   "main": "index.js",
   "author": "Nacho Mascort <nacho.mascort@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "SEO",
+    "scraper",
+    "SERP",
+    "metadata",
+    "google",
+    "meta scraper"
+  ],
   "scripts": {
     "test": "echo \"No test specified\""
   },
