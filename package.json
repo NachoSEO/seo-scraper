@@ -1,6 +1,6 @@
 {
   "name": "seo-scraper",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Scrape SEO elements or whatever you need with this scraper built in Node.js",
   "main": "index.js",
   "author": "Nacho Mascort <nacho.mascort@gmail.com>",
