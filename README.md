@@ -31,9 +31,9 @@ The default config extract the usual SEO elements without proxies:
 ### Usage
 The process is as easy as use the `scrape` function with an object with a url property as argument/input:
 ```js
-const scrape = require('seo-scraper');
+const scraper = require('seo-scraper');
 
-scrape({ url: 'https://github.com/NachoSEO/seo-scraper' })
+scraper.scrape({ url: 'https://github.com/NachoSEO/seo-scraper' })
   .then(elements => console.log(elements))
 ```
 
@@ -310,7 +310,7 @@ It's important to add an array in the whitelist property in order to use the uti
 
 Example:
 ```js
-scrape({ url: 'https://example.com/', proxies })
+scraper.scrape({ url: 'https://example.com/', proxies })
 ```
 
 
@@ -320,7 +320,7 @@ This is an example of a custom scraping.
 We can use several variables and pass it to the functions as arguments or just one object with all the custom properties we need.
 
 ```js
-const scrape = require('seo-scraper');
+const scraper = require('seo-scraper');
 
 const options = {
   url: 'https://github.com/NachoSEO',
@@ -349,7 +349,7 @@ const options = {
   }
 }
 
-scrape(options)
+scraper.scrape(options)
   .then(elements => console.log(elements))
   .catch(err => console.error(err));
 
@@ -373,7 +373,7 @@ In order to use the `...args` you will need to pass any extra argument in the `s
 
 Like this:
 ```js
-scrape(options, arg1, arg2, arg3);
+scraper.scrape(options, arg1, arg2, arg3);
 ```
 
 ### Example using a Transformer function
@@ -438,7 +438,7 @@ const options = {
   transformer: parseSERP
 }
   
-scrape(options)
+scraper.scrape(options)
   .then(elements => console.log(elements))
   .catch(err => console.error(err));
 
